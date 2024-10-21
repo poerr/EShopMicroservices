@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Catalog.API.Products.UpdateProduct
+﻿namespace Catalog.API.Products.UpdateProduct
 {
     public record UpdateProductCommand(
         Guid Id, 
@@ -28,13 +26,11 @@ namespace Catalog.API.Products.UpdateProduct
     }
 
     public class UpdateProductHandler
-        (IDocumentSession session, ILogger<UpdateProductHandler> logger)
+        (IDocumentSession session)
         : ICommandHandler<UpdateProductCommand, UpdateProductResult>
     {
         public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
-            logger.LogInformation("UpdateProductHandler.Handle called with {@Command}", command);
-
             var existingProduct = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
             if (existingProduct == null)
